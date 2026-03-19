@@ -1,0 +1,102 @@
+PROBLEM STATEMENT
+
+One-layer softmax transformers have been shown to fail on certain tasks that require
+reasoning about relationships between multiple tokens simultaneously. Existing
+impossibility proofs for these failures rely on communication complexity arguments
+and require a finite precision assumption: they only hold when the transformer's
+arithmetic operates with sub-linear precision bits relative to the input length.
+
+This finite precision requirement is a known weakness in the existing proofs. It is
+unclear whether the limitations are fundamental properties of the softmax attention
+mechanism itself, or artifacts of the proof technique that disappear under more
+generous computational assumptions.
+
+KNOWN RESULTS TO BUILD FROM
+
+1. Any one-layer softmax transformer that can compute the composition of two
+   functions f∘g must have hidden dimension at least Omega(n) under the assumption
+   that the transformer uses sub-linear precision bits. The proof proceeds by
+   constructing a communication protocol from any transformer solving the task.
+   [Peng, Narayanan, Papadimitriou 2024]
+
+2. The Match-3 task requires identifying all token triplets in an input sequence
+   that satisfy a given relation. One-layer transformers cannot solve Match-3 under
+   finite precision assumptions. The proof also uses communication complexity.
+   [Sanford, Hsu, Telgarsky 2023]
+
+3. Standard softmax attention computes, for each query position, a weighted sum
+   over all key-value pairs. The attention weight between position i and position j
+   is determined by the inner product of their query and key vectors, passed through
+   a softmax. This is a pairwise operation: each output token depends on weighted
+   combinations of pairs of input tokens.
+   [Vaswani et al. 2017]
+
+4. The minimum number of scalar multiplications required to multiply two 2x2
+   matrices is 7, not the naive 8. This was established by showing an explicit
+   construction using 7 multiplications and proving that 6 is insufficient.
+   [Strassen 1969]
+
+5. The bilinear complexity of a map f(x,y) is the minimum number of scalar
+   multiplications sufficient to compute f for all inputs x, y. This equals the
+   rank of the associated 3-tensor: the minimum r such that the tensor can be
+   written as a sum of r rank-1 tensors. Lower bounds on bilinear complexity
+   follow from lower bounds on tensor rank.
+   [Bürgisser, Clausen, Shokrollahi 1997]
+
+6. Transformers with logarithmic precision are upper-bounded by the complexity
+   class TC0. This gives an upper bound on what log-precision transformers can
+   compute, but says nothing about infinite-precision transformers.
+   [Merrill, Sabharwal 2023]
+
+7. The VC dimension of a hypothesis class H is the size of the largest set of
+   points that H can shatter. A set S is shattered if for every labeling of S
+   there exists a hypothesis in H consistent with that labeling. VC dimension
+   characterizes the combinatorial complexity of a function class independent
+   of any computational resource assumptions.
+   [Vapnik, Chervonenkis 1971]
+
+8. Communication complexity lower bounds for transformers require a precision
+   assumption because the proof constructs a communication protocol where the
+   number of bits transmitted is bounded by the precision. Removing the precision
+   assumption breaks the protocol construction.
+   [Peng et al. 2024, Sanford et al. 2023]
+
+OPEN QUESTION
+
+Does the impossibility result for function composition and Match-3 survive when
+the finite precision assumption is completely removed? That is: can one-layer
+softmax transformers with arbitrary precision solve these tasks, or are they still
+provably limited?
+
+If the impossibility persists under infinite precision, the existing communication
+complexity proof technique cannot establish this, because it requires finite
+precision. A different proof technique would be needed.
+
+Furthermore: if one-layer softmax transformers are fundamentally limited for
+compositionality tasks regardless of precision, does there exist a modification
+to the attention mechanism that provably resolves this limitation while remaining
+computationally efficient?
+
+CONSTRAINTS ON YOUR INVESTIGATION
+
+1. Work within the framework of one-layer transformers unless you can prove that
+   additional layers are strictly necessary for the task.
+
+2. If you propose a modification to an existing mechanism, prove what class of
+   tasks it can solve that the original mechanism cannot.
+
+3. If you propose a modification, analyze its computational complexity relative
+   to standard attention. A modification that requires O(n^3) operations when
+   standard attention requires O(n^2) should be noted explicitly.
+
+4. Any impossibility result you establish must hold without a precision assumption,
+   or explicitly state what assumption it requires.
+
+5. Every major claim should be structured so that it is expressible as a formal
+   theorem, even if you do not complete the full Lean 4 proof in this session.
+
+6. Use the scratchpad to track what is established versus what is assumed.
+   Do not proceed as if an assumption is established until it has been verified.
+
+7. When you retrieve papers from the corpus, query by describing the mathematical
+   structure of what you are looking for, not by author name or paper title.

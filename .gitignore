@@ -1,0 +1,128 @@
+# ============================================================
+# NOVA Reasoning System — .gitignore
+# ============================================================
+
+# ------------------------------------
+# Model weights (very large — never commit)
+# ------------------------------------
+models/
+*.gguf
+*.bin
+*.safetensors
+*.pt
+*.pth
+*.ckpt
+*.pkl
+*.msgpack
+
+# ------------------------------------
+# Vector store (rebuilt from corpus)
+# ------------------------------------
+vectorstore/
+*.chroma
+
+# ------------------------------------
+# Lean build artifacts (rebuilt by lake)
+# ------------------------------------
+lean_workspace/.lake/
+lean_workspace/build/
+lean_workspace/lake-manifest.json
+*.olean
+*.ilean
+*.trace
+
+# ------------------------------------
+# Session state and outputs
+# (these may contain intermediate results — commit selectively)
+# ------------------------------------
+sessions/
+# Uncomment to also ignore outputs:
+# outputs/
+
+# ------------------------------------
+# Memory database (rebuilds from sessions)
+# ------------------------------------
+memory/failures.db
+memory/failures.db-wal
+memory/failures.db-shm
+
+# ------------------------------------
+# Python environment
+# ------------------------------------
+venv/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+*.egg-info/
+dist/
+build/
+.eggs/
+*.egg
+*.whl
+
+# ------------------------------------
+# Python type checking / linting caches
+# ------------------------------------
+.mypy_cache/
+.ruff_cache/
+.pytest_cache/
+.coverage
+htmlcov/
+.tox/
+
+# ------------------------------------
+# Jupyter notebooks (if any)
+# ------------------------------------
+.ipynb_checkpoints/
+*.ipynb
+
+# ------------------------------------
+# OS artifacts
+# ------------------------------------
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+*~
+.idea/
+.vscode/
+*.code-workspace
+
+# ------------------------------------
+# Temporary files
+# ------------------------------------
+*.tmp
+*.temp
+*.log
+/tmp/
+/temp/
+
+# ------------------------------------
+# HuggingFace download cache
+# ------------------------------------
+.cache/huggingface/
+hub/
+
+# ------------------------------------
+# Environment variables (never commit secrets)
+# ------------------------------------
+.env
+.env.*
+!.env.example
+
+# ------------------------------------
+# Lean temp verification files
+# (created and deleted during verification)
+# ------------------------------------
+lean_workspace/nova_verify_*.lean
+lean_workspace/cache.json
+
+# ------------------------------------
+# Large corpus files (PDFs are in corpus/ — commit the list not the files)
+# Consider using git-lfs for the corpus if you need version control
+# ------------------------------------
+corpus/*.pdf
+corpus/*.PDF
+# Committed: corpus/README.txt (intentionally tracked)
