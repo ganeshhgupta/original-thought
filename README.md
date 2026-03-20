@@ -30,31 +30,31 @@ the system doesn't know a correct answer exists. it thinks it's working on an op
 
 ```
 ┌────────────────────────────────────────────────────────────┐
-│                     session loop                            │
-│                                                              │
-│  DPP CORPUS SAMPLER                                         │
-│  diverse paper subset via determinantal point process        │
-│                        │                                     │
-│  GENERATOR (Qwen3-72B, GPU 0+1)                             │
-│  12 free reasoning steps with tool access:                  │
-│  scratchpad · lean_verify · z3_check · sympy · corpus       │
-│                        │                                     │
-│         ┌──────────────┴──────────────┐                     │
-│  ADVERSARIAL CRITIC            DEVIL'S ADVOCATE             │
-│  finds weakest point           argues it's already known    │
-│         └──────────────┬──────────────┘                     │
-│                        │                                     │
+│                     session loop                           │
+│                                                            │
+│  DPP CORPUS SAMPLER                                        │
+│  diverse paper subset via determinantal point process      │
+│                        │                                   │
+│  GENERATOR (Qwen3-72B, GPU 0+1)                            │
+│  12 free reasoning steps with tool access:                 │
+│  scratchpad · lean_verify · z3_check · sympy · corpus      │
+│                        │                                   │
+│         ┌──────────────┴──────────────┐                    │
+│  ADVERSARIAL CRITIC            DEVIL'S ADVOCATE            │
+│  finds weakest point           argues it's already known   │
+│         └──────────────┬──────────────┘                    │
+│                        │                                   │
 │  DEEPSEEK-PROVER-V1.5-RL (GPU 2)                           │
-│  independent formal proof evaluation                        │
-│                        │                                     │
-│  SYNTHESIZER                                                │
-│  tags objections · updates scratchpad                       │
-│  computes termination signals · decides redirects           │
-│                        │                                     │
-│  TERMINATION SIGNALS (checked after round 10)               │
-│  1. cosine similarity of generator outputs > 0.92           │
-│  2. critic novelty rate < 10%                               │
-│  3. zero new lean obligations discharged × 5 rounds         │
+│  independent formal proof evaluation                       │
+│                        │                                   │
+│  SYNTHESIZER                                               │
+│  tags objections · updates scratchpad                      │
+│  computes termination signals · decides redirects          │
+│                        │                                   │
+│  TERMINATION SIGNALS (checked after round 10)              │
+│  1. cosine similarity of generator outputs > 0.92          │
+│  2. critic novelty rate < 10%                              │
+│  3. zero new lean obligations discharged × 5 rounds        │
 └────────────────────────────────────────────────────────────┘
 ```
 
